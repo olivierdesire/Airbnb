@@ -9,13 +9,30 @@ import {
   StyleSheet,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import axios from "axios";
 
 export default function SignInScreen({ setToken }) {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const test = false;
+  const handleToken = async () => {
+    if (!email || !password) {
+      setErrorMessage("please fill all fields");
+    } else {
+      try {
+        const userToken = await axios.post(
+          "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/user/log_in",
+          { email, password }
+        );
+        setToken(userToken.data.token);
+        alert("connexion succeedeed");
+      } catch (error) {
+        setErrorMessage("email/password incorrect");
+      }
+    }
+  };
 
   return (
     <KeyboardAwareScrollView>
@@ -30,7 +47,7 @@ export default function SignInScreen({ setToken }) {
         <View>
           <TextInput
             style={styles.inputSign}
-            value={email}
+            value={email.toLowerCase()}
             placeholder="email"
             onChangeText={(text) => {
               setEmail(text);
@@ -46,14 +63,11 @@ export default function SignInScreen({ setToken }) {
             }}
           />
           <View style={[styles.center, styles.buttonMargin]}>
-            <Text style={test ? styles.textFilled : styles.noTextFilled}>
-              Please fill all fields
-            </Text>
+            <Text style={styles.textFilled}> {errorMessage}</Text>
             <TouchableOpacity
               style={styles.buttonSign}
               onPress={async () => {
-                const userToken = "secret-token";
-                setToken(userToken);
+                handleToken();
               }}
             >
               <Text style={styles.textButtonSign}>Sign in</Text>
@@ -130,8 +144,6 @@ const styles = StyleSheet.create({
   },
   textFilled: {
     color: "red",
-  },
-  noTextFilled: {
-    backfaceVisibility: "hidden",
+    marginBottom: 10,
   },
 });
