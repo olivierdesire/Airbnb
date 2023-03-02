@@ -42,7 +42,9 @@ export default function HomeScreen() {
       renderItem={({ item }) => (
         <>
           <TouchableOpacity
-            onPress={navigation.navigate("Room", { _id: item._id })}
+            onPress={() => {
+              navigation.navigate("Room", { _id: item._id });
+            }}
           >
             <Image style={styles.image} source={{ uri: item.photos[0].url }} />
           </TouchableOpacity>
@@ -66,9 +68,18 @@ export default function HomeScreen() {
               >
                 {stars.map((element, index) => {
                   if (index < item.ratingValue) {
-                    return <Entypo name="star" size={24} color="#FFB000" />;
+                    return (
+                      <Entypo
+                        key={index}
+                        name="star"
+                        size={24}
+                        color="#FFB000"
+                      />
+                    );
                   } else {
-                    return <Entypo name="star" size={24} color="grey" />;
+                    return (
+                      <Entypo key={index} name="star" size={24} color="grey" />
+                    );
                   }
                 })}
                 <View style={styles.textReview}>

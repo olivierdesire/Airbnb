@@ -12,6 +12,7 @@ import SettingsScreen from "./containers/SettingsScreen";
 import RoomScreen from "./containers/RoomScreen";
 import SplashScreen from "./containers/SplashScreen";
 import LogoImage from "./components/LogoImage";
+import CustomGoBack from "./components/CustomGoBack";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -99,6 +100,7 @@ export default function App() {
                         name="Room"
                         options={{
                           headerTitle: () => <LogoImage />,
+                          headerLeft: () => <CustomGoBack />,
                         }}
                       >
                         {(props) => <RoomScreen {...props} />}
