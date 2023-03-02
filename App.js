@@ -10,6 +10,7 @@ import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
 import SettingsScreen from "./containers/SettingsScreen";
 import SplashScreen from "./containers/SplashScreen";
+import LogoImage from "./components/LogoImage";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -59,7 +60,7 @@ export default function App() {
               {() => <SignInScreen setToken={setToken} />}
             </Stack.Screen>
             <Stack.Screen name="SignUp" options={{ headerShown: false }}>
-              {() => <SignUpScreen setToken={setToken} />}
+              {(props) => <SignUpScreen {...props} setToken={setToken} />}
             </Stack.Screen>
           </>
         ) : (
@@ -87,9 +88,7 @@ export default function App() {
                       <Stack.Screen
                         name="Home"
                         options={{
-                          title: "My App",
-                          headerStyle: { backgroundColor: "red" },
-                          headerTitleStyle: { color: "white" },
+                          headerTitle: () => <LogoImage />,
                         }}
                       >
                         {() => <HomeScreen />}

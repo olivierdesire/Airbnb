@@ -1,17 +1,17 @@
 import {
-  Button,
   Text,
   TextInput,
   View,
   TouchableOpacity,
   Image,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import axios from "axios";
 
-export default function SignUpScreen({ setToken }) {
+export default function SignUpScreen({ setToken, navigation }) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
@@ -40,7 +40,7 @@ export default function SignUpScreen({ setToken }) {
 
   return (
     <KeyboardAwareScrollView>
-      <View>
+      <ScrollView style={styles.container}>
         <View style={styles.logo}>
           <Image
             style={styles.imageLogo}
@@ -54,6 +54,7 @@ export default function SignUpScreen({ setToken }) {
             value={email.toLowerCase()}
             placeholder="email"
             onChangeText={(text) => {
+              setErrorMessage("");
               setEmail(text);
             }}
           />
@@ -62,6 +63,7 @@ export default function SignUpScreen({ setToken }) {
             value={username}
             placeholder="username"
             onChangeText={(text) => {
+              setErrorMessage("");
               setUsername(text);
             }}
           />
@@ -81,6 +83,7 @@ export default function SignUpScreen({ setToken }) {
             placeholder="password"
             secureTextEntry={true}
             onChangeText={(text) => {
+              setErrorMessage("");
               setPassword(text);
             }}
           />
@@ -90,6 +93,7 @@ export default function SignUpScreen({ setToken }) {
             placeholder="confirm password"
             secureTextEntry={true}
             onChangeText={(text) => {
+              setErrorMessage("");
               setConfirmPassword(text);
             }}
           />
@@ -115,12 +119,16 @@ export default function SignUpScreen({ setToken }) {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </KeyboardAwareScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+  },
   center: {
     justifyContent: "center",
     alignItems: "center",
@@ -133,6 +141,7 @@ const styles = StyleSheet.create({
   imageLogo: {
     height: 100,
     width: 90,
+    resizeMode: "contain",
   },
   textLogo: {
     color: "#717171",
@@ -185,6 +194,7 @@ const styles = StyleSheet.create({
 
   textButtonAlreadyAccount: {
     fontSize: 12,
+    marginBottom: 50,
   },
   textFilled: {
     color: "red",
