@@ -11,6 +11,7 @@ import SignUpScreen from "./containers/SignUpScreen";
 import SettingsScreen from "./containers/SettingsScreen";
 import RoomScreen from "./containers/RoomScreen";
 import SplashScreen from "./containers/SplashScreen";
+import AroundMeScreen from "./containers/AroundMeScreen";
 import LogoImage from "./components/LogoImage";
 import CustomGoBack from "./components/CustomGoBack";
 
@@ -86,20 +87,19 @@ export default function App() {
                   }}
                 >
                   {() => (
-                    <Stack.Navigator>
-                      <Stack.Screen
-                        name="Home"
-                        options={{
-                          headerTitle: () => <LogoImage />,
-                        }}
-                      >
+                    <Stack.Navigator
+                      screenOptions={{
+                        headerTitle: () => <LogoImage />,
+                        headerTitleAlign: "center",
+                      }}
+                    >
+                      <Stack.Screen name="Home">
                         {() => <HomeScreen />}
                       </Stack.Screen>
 
                       <Stack.Screen
                         name="Room"
                         options={{
-                          headerTitle: () => <LogoImage />,
                           headerLeft: () => <CustomGoBack />,
                         }}
                       >
@@ -113,6 +113,37 @@ export default function App() {
                         }}
                       >
                         {() => <ProfileScreen />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
+                </Tab.Screen>
+                <Tab.Screen
+                  name="TabAround"
+                  options={{
+                    tabBarLabel: "Around me",
+                    tabBarIcon: ({ color, size }) => (
+                      <Ionicons
+                        name={"location-outline"}
+                        size={size}
+                        color={color}
+                      />
+                    ),
+                  }}
+                >
+                  {() => (
+                    <Stack.Navigator
+                      screenOptions={{
+                        headerTitle: () => <LogoImage />,
+                        headerTitleAlign: "center",
+                      }}
+                    >
+                      <Stack.Screen
+                        name="AroundMe"
+                        options={{
+                          title: "Around Me",
+                        }}
+                      >
+                        {(props) => <AroundMeScreen {...props} />}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}

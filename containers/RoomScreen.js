@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Entypo } from "@expo/vector-icons";
 
 const RoomScreen = ({ route }) => {
+  const { _id } = route.params;
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const stars = [1, 2, 3, 4, 5];
@@ -12,7 +13,7 @@ const RoomScreen = ({ route }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/rooms/${route.params._id}`
+          `https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/rooms/${_id}`
         );
         setData(response.data);
         setIsLoading(false);
