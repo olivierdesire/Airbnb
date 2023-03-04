@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Image, ActivityIndicator } from "react-native";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Entypo } from "@expo/vector-icons";
+import { askPermissionAndGetCoords } from "../utils/askPermissionAndGetCoords";
 
 const RoomScreen = ({ route }) => {
   const { _id } = route.params;
@@ -10,6 +11,8 @@ const RoomScreen = ({ route }) => {
   const stars = [1, 2, 3, 4, 5];
 
   useEffect(() => {
+    askPermissionAndGetCoords();
+
     const fetchData = async () => {
       try {
         const response = await axios.get(

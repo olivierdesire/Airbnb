@@ -3,6 +3,7 @@ import { View, ActivityIndicator, StyleSheet } from "react-native";
 import * as Location from "expo-location";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import axios from "axios";
+import { askPermissionAndGetCoords } from "../utils/askPermissionAndGetCoords";
 
 const AroundMeScreen = ({ navigation }) => {
   const [latitude, setLatitude] = useState(null);
@@ -11,26 +12,6 @@ const AroundMeScreen = ({ navigation }) => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    const askPermissionAndGetCoords = async () => {
-      try {
-        const { status } = await Location.requestForegroundPermissionsAsync();
-
-        if (status === "granted") {
-          try {
-            const { coords } = await Location.getCurrentPositionAsync();
-            setLatitude(coords.longitude);
-            setLongitude(coords.longitude);
-          } catch (error) {
-            console.log("catch >> ", error.response);
-          }
-        } else {
-          alert("Permission denied");
-        }
-      } catch (error) {
-        console.log("catch >> ", error.response);
-      }
-    };
-
     askPermissionAndGetCoords();
 
     const fetchData = async () => {
