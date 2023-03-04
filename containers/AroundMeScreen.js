@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
-import * as Location from "expo-location";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import axios from "axios";
-import { askPermissionAndGetCoords } from "../utils/askPermissionAndGetCoords";
+import * as Location from "expo-location";
 
 const AroundMeScreen = ({ navigation }) => {
   const [latitude, setLatitude] = useState(null);
@@ -12,31 +11,30 @@ const AroundMeScreen = ({ navigation }) => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    askPermissionAndGetCoords();
-
-    const fetchData = async () => {
+    const askPermissionAndGetCoords = async () => {
       try {
-        const { data } = await axios.get(
-          "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/rooms/around"
-        );
-        setData(data);
-        setIsLoading(false);
-      } catch (error) {}
+        const { status } = await Location.requestForegroundPermissionsAsync();
+
+        if (status === "granted") {
+          const { coords } = await Location.getCurrentPositionAsync();
+          setLatitude(coords.longitude);
+          setLongitude(coords.longitude);
+
+          const { data } = await axios.get(
+            "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/rooms/around"
+          );
+          setData(data);
+          setIsLoading(false);
+        } else {
+          alert("Permission denied");
+        }
+      } catch (error) {
+        console.log("catch >> ", error.response);
+      }
     };
 
-    fetchData();
+    askPermissionAndGetCoords();
   }, []);
-
-  const handleSubmit = async (latitude, longitude) => {
-    try {
-      const { data } = await axios.get(
-        `https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/rooms/around?latitude=${latitude}&longitude=${longitude}`
-      );
-      return data[0]._id;
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
 
   return isLoading ? (
     <View>
@@ -63,11 +61,7 @@ const AroundMeScreen = ({ navigation }) => {
               longitude: coords.location[0],
             }}
             onPress={async () => {
-              const responseId = await handleSubmit(
-                coords.location[1],
-                coords.location[0]
-              );
-              navigation.navigate("Room", { _id: responseId });
+              navigation.navigate("Room", { _id: coords._id });
             }}
           ></Marker>
         );

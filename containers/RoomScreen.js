@@ -2,17 +2,17 @@ import { View, Text, StyleSheet, Image, ActivityIndicator } from "react-native";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Entypo } from "@expo/vector-icons";
-import { askPermissionAndGetCoords } from "../utils/askPermissionAndGetCoords";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
 const RoomScreen = ({ route }) => {
   const { _id } = route.params;
   const [data, setData] = useState(null);
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const stars = [1, 2, 3, 4, 5];
 
   useEffect(() => {
-    askPermissionAndGetCoords();
-
     const fetchData = async () => {
       try {
         const response = await axios.get(
@@ -75,6 +75,24 @@ const RoomScreen = ({ route }) => {
       >
         {data.description}
       </Text>
+      <MapView
+        style={styles.map}
+        provider={PROVIDER_GOOGLE}
+        initialRegion={{
+          latitude: 48.856614,
+          longitude: 2.3522219,
+          latitudeDelta: 0.1,
+          longitudeDelta: 0.1,
+        }}
+        showsUserLocation={true}
+      >
+        <Marker
+          coordinate={{
+            latitude: data.location[1],
+            longitude: data.location[0],
+          }}
+        ></Marker>
+      </MapView>
     </View>
   );
 };
@@ -132,5 +150,10 @@ const styles = StyleSheet.create({
   TextDesc: {
     fontSize: 13,
     lineHeight: 17,
+  },
+  map: {
+    marginVertical: 10,
+    width: "100%",
+    height: 200,
   },
 });
