@@ -32,6 +32,14 @@ export default function App() {
     setUserToken(token);
   };
 
+  const setId = async (id) => {
+    if (id) {
+      await AsyncStorage.setItem("userId", id);
+    } else {
+      await AsyncStorage.removeItem("userId");
+    }
+  };
+
   useEffect(() => {
     // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
@@ -60,10 +68,12 @@ export default function App() {
           // No token found, user isn't signed in
           <>
             <Stack.Screen name="SignIn" options={{ headerShown: false }}>
-              {() => <SignInScreen setToken={setToken} />}
+              {() => <SignInScreen setToken={setToken} setId={setId} />}
             </Stack.Screen>
             <Stack.Screen name="SignUp" options={{ headerShown: false }}>
-              {(props) => <SignUpScreen {...props} setToken={setToken} />}
+              {(props) => (
+                <SignUpScreen {...props} setToken={setToken} setId={setId} />
+              )}
             </Stack.Screen>
           </>
         ) : (
@@ -145,6 +155,14 @@ export default function App() {
                       >
                         {(props) => <AroundMeScreen {...props} />}
                       </Stack.Screen>
+                      <Stack.Screen
+                        name="Room"
+                        options={{
+                          headerLeft: () => <CustomGoBack />,
+                        }}
+                      >
+                        {(props) => <RoomScreen {...props} />}
+                      </Stack.Screen>
                     </Stack.Navigator>
                   )}
                 </Tab.Screen>
@@ -162,14 +180,16 @@ export default function App() {
                   }}
                 >
                   {() => (
-                    <Stack.Navigator>
-                      <Stack.Screen
-                        name="Settings"
-                        options={{
-                          title: "Settings",
-                        }}
-                      >
-                        {() => <SettingsScreen setToken={setToken} />}
+                    <Stack.Navigator
+                      screenOptions={{
+                        headerTitle: () => <LogoImage />,
+                        headerTitleAlign: "center",
+                      }}
+                    >
+                      <Stack.Screen name="Settings">
+                        {() => (
+                          <SettingsScreen setToken={setToken} setId={setId} />
+                        )}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}

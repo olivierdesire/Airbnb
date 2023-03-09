@@ -11,7 +11,7 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import axios from "axios";
 
-export default function SignInScreen({ setToken }) {
+export default function SignInScreen({ setToken, setId }) {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,11 +22,12 @@ export default function SignInScreen({ setToken }) {
       setErrorMessage("please fill all fields");
     } else {
       try {
-        const userToken = await axios.post(
+        const user = await axios.post(
           "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/user/log_in",
           { email, password }
         );
-        setToken(userToken.data.token);
+        setId(user.data.id);
+        setToken(user.data.token);
         alert("connexion succeedeed");
       } catch (error) {
         setErrorMessage("email/password incorrect");

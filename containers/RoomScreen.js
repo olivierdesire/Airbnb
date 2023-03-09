@@ -79,12 +79,11 @@ const RoomScreen = ({ route }) => {
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         initialRegion={{
-          latitude: 48.856614,
-          longitude: 2.3522219,
+          latitude: data.location[1],
+          longitude: data.location[0],
           latitudeDelta: 0.1,
           longitudeDelta: 0.1,
         }}
-        showsUserLocation={true}
       >
         <Marker
           coordinate={{
@@ -154,6 +153,6 @@ const styles = StyleSheet.create({
   map: {
     marginVertical: 10,
     width: "100%",
-    height: 200,
+    height: 250,
   },
 });

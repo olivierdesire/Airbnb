@@ -5,8 +5,8 @@ import axios from "axios";
 import * as Location from "expo-location";
 
 const AroundMeScreen = ({ navigation }) => {
-  const [latitude, setLatitude] = useState(null);
-  const [longitude, setLongitude] = useState(null);
+  const [latitude, setLatitude] = useState(48.856614);
+  const [longitude, setLongitude] = useState(2.3522219);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState(null);
 
@@ -14,14 +14,14 @@ const AroundMeScreen = ({ navigation }) => {
     const askPermissionAndGetCoords = async () => {
       try {
         const { status } = await Location.requestForegroundPermissionsAsync();
-
+        console.log("status >>", status);
         if (status === "granted") {
           const { coords } = await Location.getCurrentPositionAsync();
-          setLatitude(coords.longitude);
+          setLatitude(coords.latitude);
           setLongitude(coords.longitude);
 
           const { data } = await axios.get(
-            "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/rooms/around"
+            `https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/rooms/around?latitude=${coords.latitude}&longitude=${coords.longitude}`
           );
           setData(data);
           setIsLoading(false);
@@ -45,8 +45,8 @@ const AroundMeScreen = ({ navigation }) => {
       style={styles.map}
       provider={PROVIDER_GOOGLE}
       initialRegion={{
-        latitude: 48.856614,
-        longitude: 2.3522219,
+        latitude: latitude,
+        longitude: longitude,
         latitudeDelta: 0.2,
         longitudeDelta: 0.2,
       }}
@@ -60,10 +60,10 @@ const AroundMeScreen = ({ navigation }) => {
               latitude: coords.location[1],
               longitude: coords.location[0],
             }}
-            onPress={async () => {
+            onPress={() => {
               navigation.navigate("Room", { _id: coords._id });
             }}
-          ></Marker>
+          />
         );
       })}
     </MapView>

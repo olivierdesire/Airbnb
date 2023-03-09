@@ -10,7 +10,7 @@ export default LogoImage;
 
 const styles = StyleSheet.create({
   logoImage: {
-    height: 50,
+    height: 40,
     width: 30,
     resizeMode: "contain",
   },
