@@ -102,7 +102,7 @@ export default function SettingsScreen({ setToken, setId }) {
         console.log("token", recupToken);
 
         const result = await axios.put(
-          " https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/user/update",
+          "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/user/update",
           { email: email, description: description, username: username },
           {
             headers: {
@@ -110,7 +110,7 @@ export default function SettingsScreen({ setToken, setId }) {
             },
           }
         );
-        console.log(result);
+        console.log(result.data);
         alert("user updated");
       }
     } catch (error) {
