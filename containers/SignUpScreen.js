@@ -11,7 +11,7 @@ import { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import axios from "axios";
 
-export default function SignUpScreen({ setToken, navigation }) {
+export default function SignUpScreen({ setToken, navigation, setId }) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
@@ -30,6 +30,7 @@ export default function SignUpScreen({ setToken, navigation }) {
           "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/user/sign_up",
           { email, username, description, password }
         );
+        setId(userToken.data.id);
         setToken(userToken.data.token);
         alert("Account created");
       } catch (error) {

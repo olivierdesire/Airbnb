@@ -8,7 +8,6 @@ import HomeScreen from "./containers/HomeScreen";
 import ProfileScreen from "./containers/ProfileScreen";
 import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
-import SettingsScreen from "./containers/SettingsScreen";
 import RoomScreen from "./containers/RoomScreen";
 import SplashScreen from "./containers/SplashScreen";
 import AroundMeScreen from "./containers/AroundMeScreen";
@@ -167,12 +166,12 @@ export default function App() {
                   )}
                 </Tab.Screen>
                 <Tab.Screen
-                  name="TabSettings"
+                  name="TabProfile"
                   options={{
-                    tabBarLabel: "Settings",
+                    tabBarLabel: "Profile",
                     tabBarIcon: ({ color, size }) => (
                       <Ionicons
-                        name={"ios-options"}
+                        name={"person-outline"}
                         size={size}
                         color={color}
                       />
@@ -186,9 +185,9 @@ export default function App() {
                         headerTitleAlign: "center",
                       }}
                     >
-                      <Stack.Screen name="Settings">
+                      <Stack.Screen name="Profile">
                         {() => (
-                          <SettingsScreen setToken={setToken} setId={setId} />
+                          <ProfileScreen setToken={setToken} setId={setId} />
                         )}
                       </Stack.Screen>
                     </Stack.Navigator>

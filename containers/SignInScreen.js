@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
   imageLogo: {
     height: 100,
     width: 90,
+    resizeMode: "contain",
   },
   textLogo: {
     color: "#717171",
