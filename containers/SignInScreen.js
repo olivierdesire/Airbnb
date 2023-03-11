@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   buttonSign: {
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: "red",
     width: 200,
     borderRadius: 50,

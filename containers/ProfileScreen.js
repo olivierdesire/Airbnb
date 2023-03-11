@@ -11,15 +11,13 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useState, useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-export default function SettingsScreen({ setToken, setId }) {
+export default function SettingsScreen({ setToken, setId, userToken, userId }) {
   const [isLoading, setIsLoading] = useState(true);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
-  const [recupToken, setRecupToken] = useState(null);
   const [avatar, setAvatar] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const [avatarModified, setAvatarModified] = useState(false);
@@ -28,17 +26,14 @@ export default function SettingsScreen({ setToken, setId }) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const id = await AsyncStorage.getItem("userId");
-        const tokenSearch = await AsyncStorage.getItem("userToken");
         const userSearch = await axios.get(
-          `https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/user/${id}`,
+          `https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/user/${userId}`,
           {
             headers: {
-              Authorization: `Bearer ${tokenSearch}`,
+              Authorization: `Bearer ${userToken}`,
             },
           }
         );
-        setRecupToken(tokenSearch);
         setEmail(userSearch.data.email);
         setUsername(userSearch.data.username);
         setDescription(userSearch.data.description);
@@ -108,7 +103,7 @@ export default function SettingsScreen({ setToken, setId }) {
           { email: email, description: description, username: username },
           {
             headers: {
-              Authorization: `Bearer ${recupToken}`,
+              Authorization: `Bearer ${userToken}`,
             },
           }
         );
@@ -130,7 +125,7 @@ export default function SettingsScreen({ setToken, setId }) {
           {
             headers: {
               "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${recupToken}`,
+              Authorization: `Bearer ${userToken}`,
             },
           }
         );

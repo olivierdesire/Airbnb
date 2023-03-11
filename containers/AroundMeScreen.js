@@ -14,14 +14,15 @@ const AroundMeScreen = ({ navigation }) => {
     const askPermissionAndGetCoords = async () => {
       try {
         const { status } = await Location.requestForegroundPermissionsAsync();
-        console.log("status >>", status);
         if (status === "granted") {
-          const { coords } = await Location.getCurrentPositionAsync();
-          setLatitude(coords.latitude);
-          setLongitude(coords.longitude);
+          // const { coords } = await Location.getCurrentPositionAsync();
+          // setLatitude(coords.latitude);
+          // setLongitude(coords.longitude);
+          // latitude = coords.latitude
+          // longitude = coords.longitude
 
           const { data } = await axios.get(
-            `https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/rooms/around?latitude=${coords.latitude}&longitude=${coords.longitude}`
+            `https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/rooms/around?latitude=${latitude}&longitude=${longitude}`
           );
           setData(data);
           setIsLoading(false);

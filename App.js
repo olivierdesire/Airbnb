@@ -20,6 +20,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   const setToken = async (token) => {
     if (token) {
@@ -44,10 +45,12 @@ export default function App() {
     const bootstrapAsync = async () => {
       // We should also handle error for production apps
       const userToken = await AsyncStorage.getItem("userToken");
+      const userId = await AsyncStorage.getItem("userId");
 
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
       setUserToken(userToken);
+      setUserId(userId);
 
       setIsLoading(false);
     };
@@ -110,6 +113,7 @@ export default function App() {
                         name="Room"
                         options={{
                           headerLeft: () => <CustomGoBack />,
+                          headerBackVisible: false,
                         }}
                       >
                         {(props) => <RoomScreen {...props} />}
@@ -158,6 +162,7 @@ export default function App() {
                         name="Room"
                         options={{
                           headerLeft: () => <CustomGoBack />,
+                          headerBackVisible: false,
                         }}
                       >
                         {(props) => <RoomScreen {...props} />}
@@ -187,7 +192,12 @@ export default function App() {
                     >
                       <Stack.Screen name="Profile">
                         {() => (
-                          <ProfileScreen setToken={setToken} setId={setId} />
+                          <ProfileScreen
+                            setToken={setToken}
+                            setId={setId}
+                            userToken={userToken}
+                            userId={userId}
+                          />
                         )}
                       </Stack.Screen>
                     </Stack.Navigator>
