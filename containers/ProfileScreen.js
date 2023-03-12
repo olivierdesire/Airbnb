@@ -13,7 +13,7 @@ import * as ImagePicker from "expo-image-picker";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function SettingsScreen({ setToken, setId, userToken, userId }) {
+export default function ProfileScreen({ setToken, setId, userToken, userId }) {
   const [isLoading, setIsLoading] = useState(true);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -25,6 +25,7 @@ export default function SettingsScreen({ setToken, setId, userToken, userId }) {
 
   useEffect(() => {
     const fetchUser = async () => {
+      console.log(userId);
       try {
         const userSearch = await axios.get(
           `https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/user/${userId}`,

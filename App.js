@@ -9,7 +9,6 @@ import ProfileScreen from "./containers/ProfileScreen";
 import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
 import RoomScreen from "./containers/RoomScreen";
-import SplashScreen from "./containers/SplashScreen";
 import AroundMeScreen from "./containers/AroundMeScreen";
 import LogoImage from "./components/LogoImage";
 import CustomGoBack from "./components/CustomGoBack";
@@ -38,6 +37,8 @@ export default function App() {
     } else {
       await AsyncStorage.removeItem("userId");
     }
+
+    setUserId(id);
   };
 
   useEffect(() => {
